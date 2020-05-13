@@ -9,11 +9,12 @@ class NatsController:
         self.topics = topics
         self.msg_keeper = {}
 
-    async def listen(self):
+    async def handler(self, msg):
+        self.msg_keeper[msg.subject] = msg
+
+    async def listen(self, topic, coro):
         await self.nc.connect(self.conn_str)
-        for topic in self.topics:
-            await self.nc.subscribe(topic, cb=self.handler)
-        await self.nc.close()
+        await self.nc.subscribe(topic, cb=coro)
 
     async def publish(self, topic, payload=None):
         await self.nc.connect(self.conn_str)
