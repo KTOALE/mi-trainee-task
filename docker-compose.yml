@@ -1,0 +1,38 @@
+version: "3"
+services:
+
+  nats_server:
+    image: nats:latest
+    entrypoint: "/nats-server -DV"
+    ports:
+    - 4222:4222
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+
+  gate:
+    image: gate:0.0.1
+    environment:
+      - NATS_HOST=localhost
+      - NATS_PORT=4222
+      - TOPICS_TO_LISTEN=db_coro.set,db_coro.get
+    ports:
+      - 9999:9999
+    depends_on:
+      - mongo
+      - db_core
+      - nats_server
+
+  db_core:
+    image: db_core:0.0.1
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - NATS_HOST=nats_server
+      - NATS_PORT=4222
+      - TOPICS_TO_LISTEN=db_coro.set,db_coro.get
+    depends_on:
+      - mongo
+      - nats_server

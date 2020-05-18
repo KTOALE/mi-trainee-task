@@ -1,13 +1,15 @@
 from aiohttp.web_request import Request
 from aiohttp.web import Response
 
-# from settings import nats_ctrl
+from settings import nats_conn_str
+from utils.nats_controller import NatsController
 
 from utils.msgs_maker import make_secret_msg
 
 
 async def gen_secret(request: Request):
     resp_params = {}
+    nats_ctrl = NatsController(nats_conn_str)
     try:
         print(f"request_type: {type(request)}")
         print(f"url: {request.url}")
@@ -19,7 +21,7 @@ async def gen_secret(request: Request):
             login, secret, secret_key,
             encrypt=True,
         )
-        # await nats_ctrl.publish("db_core.set", payload=payload)
+        await nats_ctrl.publish("db_core.set", payload=payload)
         resp_params["text"] = "OK"
         resp_params["status"] = 200
     except:

@@ -4,9 +4,10 @@ ADD requirements.txt /
 RUN pip install -r /requirements.txt
 
 ADD src/ /app/
-#ADD src/main /app/main/
-#ADD src/handlers /app/handlers/
-#ADD src/utils /app/utils/
+#ADD src/main /main/main/
+#ADD src/handlers /main/handlers/
+#ADD src/utils /main/utils/
 ENV PYTHONPATH="/app"
 WORKDIR /app
+EXPOSE 9999
 ENTRYPOINT python3.7 main/app.py

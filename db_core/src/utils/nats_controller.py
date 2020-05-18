@@ -3,17 +3,17 @@ from nats import NATS
 
 class NatsController:
 
-    def __init__(self, conn_str, topics):
+    def __init__(self, conn_str):
         self.nc = NATS()
         self.conn_str = conn_str
-        self.topics = topics
+        # self.topics = topics
         self.msg_keeper = {}
 
-    async def listen(self):
+    async def listen(self, topics_and_handlers:iter):
         await self.nc.connect(self.conn_str)
-        for topic in self.topics:
-            await self.nc.subscribe(topic, cb=self.handler)
-        await self.nc.close()
+        for topic, handler in topics_and_handlers:
+            await self.nc.subscribe(topic, cb=handler)
+        # await self.nc.close()
 
     async def publish(self, topic, payload=None):
         await self.nc.connect(self.conn_str)

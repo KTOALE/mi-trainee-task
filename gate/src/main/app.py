@@ -5,7 +5,7 @@ from handlers.system import login, logout, create_user
 def conf_server_params():
     app = web.Application()
 
-    HOST = "localhost"
+    HOST = "127.0.0.1"
     PORT = 9999
 
     app.add_routes(
