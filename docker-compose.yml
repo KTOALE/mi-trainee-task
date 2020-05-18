@@ -32,7 +32,7 @@ services:
       - MONGO_PORT=27017
       - NATS_HOST=nats_server
       - NATS_PORT=4222
-      - TOPICS_TO_LISTEN=db_coro.set,db_coro.get
+#      - TOPICS_TO_LISTEN=db_coro.set,db_coro.get
     depends_on:
       - mongo
       - nats_server

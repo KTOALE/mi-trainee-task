@@ -12,6 +12,7 @@ class NatsController:
     async def listen(self, topics_and_handlers:iter):
         await self.nc.connect(self.conn_str)
         for topic, handler in topics_and_handlers:
+            print(f"sub on {topic} with handler {handler.__name__}")
             await self.nc.subscribe(topic, cb=handler)
         # await self.nc.close()
 

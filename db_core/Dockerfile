@@ -8,4 +8,4 @@ ADD src/ /app/
 ENV PYTHONPATH="/app"
 WORKDIR /app
 #EXPOSE 9999
-ENTRYPOINT python3.7 main/main.py
+ENTRYPOINT python3.7 -u main/main.py
