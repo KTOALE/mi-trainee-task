@@ -7,7 +7,7 @@ NATS_PORT = environ.get("NATS_PORT", "4222")
 
 
 nats_conn_str = f"nats://{NATS_HOST}:{NATS_PORT}"
-topics_listen_to = environ.get("TOPICS_TO_LISTEN", "db_coro.set,db_coro.get".split(","))
+topics_listen_to = environ.get("TOPICS_TO_LISTEN", "db_core.set,db_core.get".split(","))
 mongo_conn = {
     "host": MONGO_HOST,
     "port": int(MONGO_PORT),

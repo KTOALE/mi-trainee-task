@@ -15,7 +15,7 @@ services:
   gate:
     image: gate:0.0.1
     environment:
-      - NATS_HOST=localhost
+      - NATS_HOST=nats_server
       - NATS_PORT=4222
       - TOPICS_TO_LISTEN=db_coro.set,db_coro.get
     ports:

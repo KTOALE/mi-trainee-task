@@ -1,16 +1,16 @@
 from asyncio import get_event_loop
 from settings import nats_conn_str, topics_listen_to
-from utils.coro_tasks import set_secret, get_secret
+from buissness_logic.coro_tasks import set_secret, get_secret
 from utils.mongo_tools import init_mongo
 from utils.nats_controller import NatsController
 
 def main():
     try:
-        print("Init Mongo")
+        print("Init Mongo start...")
         init_mongo()
         print("Init Mongo complete")
 
-        print("Start to launch nats subscribing coro tasks...")
+        print("Start to launch nats subscribing coro buissness_logic...")
         nats_ctrl = NatsController(nats_conn_str)
         secrets = set_secret, get_secret,
         loop = get_event_loop()

@@ -1,5 +1,6 @@
 from functools import wraps
 from pymongo import MongoClient
+from pymongo.database import Database
 from settings import mongo_conn
 
 
@@ -9,6 +10,7 @@ def open_mongo_session(db_name):
         def inner(*args, **kwargs):
             with MongoClient(**mongo_conn) as client:
                 db = client[db_name]
+                print(f"db type:{type(db)}")
                 return func(db, *args, **kwargs)
 
         return inner
@@ -17,7 +19,7 @@ def open_mongo_session(db_name):
 
 
 @open_mongo_session("secrets_database")
-def init_mongo(db):
+def init_mongo(db: Database):
     db["secrets"].insert_one({
         "email": "root",
         "secret_phrase": "",
@@ -30,12 +32,16 @@ def init_mongo(db):
 
 
 @open_mongo_session("secrets_database")
-def save_secret(db, data_to_save):
-    pass
+def save_secret(db: Database, data_to_save):
+    db["secrets"].insert_one({
+        "email": data_to_save.get("email"),
+        "secret_phrase": data_to_save.get("secret_phrase"),
+        "secret": data_to_save.get("secret"),
+    })
 
 
 @open_mongo_session("secrets_database")
-def load_secret(db, data_to_check):
+def load_secret(db: Database, data_to_check):
     pass
 
 

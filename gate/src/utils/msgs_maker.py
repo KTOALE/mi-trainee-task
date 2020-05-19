@@ -1,12 +1,12 @@
 from json import dumps
 
 
-def make_secret_msg(login, secret, secret_key, encrypt=False):
+def make_secret_msg(login, secret, secret_key, make_bytes=False):
     payload = dumps(
         {
             "secret": secret,
-            "secret_key": secret_key,
-            "login": login,
+            "secret_phrase": secret_key,
+            "email": login,
         }
     )
-    return payload.encode() if encrypt else payload
+    return payload.encode() if make_bytes else payload

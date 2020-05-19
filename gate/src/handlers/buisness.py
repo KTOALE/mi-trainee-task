@@ -14,18 +14,18 @@ async def gen_secret(request: Request):
         print(f"request_type: {type(request)}")
         print(f"url: {request.url}")
         req = await request.json()
-        login = req.get("login")
+        email = req.get("email")
+        secret_phrase = req.get("secret_phrase")
         secret = req.get("secret")
-        secret_key = req.get("secret_key")
         payload = make_secret_msg(
-            login, secret, secret_key,
-            encrypt=True,
+            email, secret, secret_phrase,
+            make_bytes=True,
         )
         await nats_ctrl.publish("db_core.set", payload=payload)
         resp_params["text"] = "OK"
         resp_params["status"] = 200
-    except:
-        print("ERROR!!!")
+    except Exception as e:
+        print(f"Error happens!!! {e}")
         resp_params.update({
             "status": 500,
             "text": "Server Internal Error",
